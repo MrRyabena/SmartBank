@@ -1,12 +1,11 @@
 # This file is used to ignore files which are generated
 # ----------------------------------------------------------------------------
 
-!core/
+
 *.*#
 *.a
 *.app
 *.autosave
-*.core
 *.debug
 *.embed.manifest
 *.moc
@@ -32,7 +31,6 @@
 .vscode
 Makefile*
 Thumbs.db
-core
 moc_*.cpp
 qrc_*.cpp
 tags
