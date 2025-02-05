@@ -2,10 +2,12 @@
 
 #include <shs_SensorAnalog.h>
 #include <shs_ProgramTime.h>
+#include <shs_Process.h>
 
 #include <shs_SortedBuf.h>
 #include <stdint.h>
 #include <algorithm>
+#include <shs_debug.h>
 
 namespace shs
 {
@@ -15,30 +17,30 @@ namespace shs
 class shs::HandleCoins : public shs::Process
 {
     public:
-    HandleCoins() {}
+    HandleCoins() : m_ir(A0) {}
 
     static constexpr auto NOTIFICATION_DELAY = 60; // in seconds
 
-    [[nodiscard]] uint16_t getSum();
+    [[nodiscard]] uint16_t getSum() const;
 
     void registerCoin(const uint8_t value) { m_register_coin_value = value; }
 
     void waiteCoin() { while (!m_coin_flag) { tick(); yield(); } }
-    void getLastRAW() const { return m_ir_last; }
+    uint16_t getLastRAW() const { return m_ir_last; }
 
     [[nodiscard]] uint16_t getSumCoin(const uint8_t value) const;
 
-    [[nodiscard]] uint16_t getActiveSum() const;
+    [[nodiscard]] uint16_t getActiveSum();
     [[nodiscard]] uint32_t getActiveTime() { return m_active_time_point.seconds(); }
 
     void start() override;
     void tick() override;
-    void stop() override;
+    void stop() override {}
 
     private:
     struct Coin
     {
-        Coin(const uint16_t set_value, const uint16_t set_ir_value, const uin16_t set_counter)
+        Coin(const uint16_t set_value, const uint16_t set_ir_value, const uint16_t set_counter)
             : value(set_value), counter(set_counter), ir_value(set_ir_value)
         {}
 
@@ -47,9 +49,9 @@ class shs::HandleCoins : public shs::Process
         uint16_t counter{};
     };
 
-    struct CoinCompare { bool operator(const Coin& lhs, const Coin& rhs) const { return lhs.value < rhs.value; } };
+    struct CoinCompare { bool operator()(const Coin& lhs, const Coin& rhs) const { return lhs.value < rhs.value; } };
 
-    shs::SortedBuf<Coin, CoinCompare> m_coins;
+    //shs::SortedBuf<Coin, CoinCompare> m_coins;
 
     shs::ProgramTime m_active_time_point;
     uint16_t m_active_sum{};
