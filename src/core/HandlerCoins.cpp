@@ -1,6 +1,22 @@
 #include "HandlerCoins.h"
 
-uint16_t shs::HandleCoins::getActiveSum()
+uint16_t shs::HandleCoins::getSum() const
+{
+    uint16_t res_sum{};
+    for (auto& x : m_coins)
+        res_sum += x.value * x.value;
+    return res_sum();
+}
+
+uint16_t shs::HandleCoins::getSum()
+{
+    auto it = m_coins.get(value);
+    if (it == m_coins.end)
+        return 0xffff;
+    return it.value * it.counter;
+}
+
+uint16_t shs::HandleCoins::getActiveSum() const
 {
     if (m_active_time_point.seconds() > NOTIFICATION_DELAY && m_active_sum)
     {
@@ -32,8 +48,7 @@ void shs::HandleCoins::tick()
 
     if ((abs(m_ir.getValueI() - m_ir_empty) < 2))
     {
-        if (m_register_coin_value)
-            m_coins.push_back(Coin(m_register_coin_value, m_ir.getValueI()));
+        if (m_register_coin_value) m_coins.push_back(Coin(m_register_coin_value, m_ir.getValueI()));
 
         for (auto coin : m_coins)
         {
