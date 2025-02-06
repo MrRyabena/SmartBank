@@ -17,6 +17,8 @@ public:
 
     void onSumChange(const uint16_t sum);   // notification
 
+    void message();
+
     void handler();
 
     void start() override;

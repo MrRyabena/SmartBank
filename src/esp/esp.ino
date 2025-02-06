@@ -1,12 +1,28 @@
 
+#include "settings.h"
+#include <shs_debug.h>
+#include "HandlerCoins.h"
 
-void setup()
-{
-
+shs::HandleCoins bank;
+uint16_t last{};
+uint16_t val{};
+void setup() {
+  dinit();
+  doutln();
+  dsep();
+  bank.start();
+  last = analogRead(0);
 }
 
 
-void loop()
-{
-    
+
+void loop() {
+  val = analogRead(0);
+  if (abs(val - last) > 5) doutln(val);
+  //doutln(val);
+  //bank.waiteCoin();
+  //bank.tick();
+  //doutln(bank.getLastRAW());
+ // doutln(analogRead(A0));
+
 }
