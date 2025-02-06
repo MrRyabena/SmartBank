@@ -37,25 +37,25 @@ void setup()
 void segment_out(int n) {
     digitalWrite(digit_1, false);
     num_display(n%10);
-    //delay(1000);
+    delay(1);
     clearDisplay();
     digitalWrite(digit_1, true);
     if (n>9){
       digitalWrite(digit_2, false);
       num_display(n%100/10);
-      //delay(10);
+      delay(1);
       clearDisplay();
       digitalWrite(digit_2, true);
       if (n>99){
         digitalWrite(digit_3, false);
         num_display(n%1000/100);
-        //delay(10);
+        delay(1);
         clearDisplay();
         digitalWrite(digit_3, true);
         if (n>999){
           digitalWrite(digit_4, false);
           num_display(n/1000);
-          //delay(10);
+          delay(1);
           clearDisplay();
           digitalWrite(digit_4, true);
         }
