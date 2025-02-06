@@ -1,26 +1,32 @@
-#include "Pineapple.h"
+#include <Pineapple.h>
 
-int serial = 6;  // shifte register, serial pin
-int registerClock = 7;  // shift register, register clock
-int serialClock = 8;  // shift register, clock
+int serial = D6;  // shifte register, serial pin
+int registerClock = D7;  // shift register, register clock
+int serialClock = D8;  // shift register, clock
 
 int numberofRegisters = 1;    // how many registers?
 
 Pineapple pineapple;     // initialize the library
 
-int digit_1 = 0; //1- единицы,..., 4-тысячи
-int digit_2 = 1;
-int digit_3 = 2;
-int digit_4 = 3;
+int digit_1 = D0; //1- единицы,..., 4-тысячи
+int digit_2 = D1;
+int digit_3 = D2;
+int digit_4 = D3;
 
 void setup() {
   segment_setup ();
 }
+
+uint32_t tmr{};
 void loop (){
-  for (int i = 0;i<10000;i++){
-    segment_out(i);
-    delay(50);
-  }
+ // for (int i = 1;i<10000;i++){
+   // while (millis() - tmr <= 50)
+    //{
+    //segment_out(9999);
+    //}
+    //tmr = millis();
+    //delay(50);
+  //}
 }
 
 
@@ -32,17 +38,17 @@ void segment_out(int n) {
     digitalWrite(digit_1, true);
     if (n>9){
       digitalWrite(digit_2, false);
-      pineapple.write(floor(n%100/10));
+      pineapple.write(n%100/10);
       delay(1);
       digitalWrite(digit_2, true);
       if (n>99){
         digitalWrite(digit_3, false);
-        pineapple.write(floor(n%1000/100));
+        pineapple.write(n%1000/100);
         delay(1);
         digitalWrite(digit_3, true);
         if (n>999){
           digitalWrite(digit_4, false);
-          pineapple.write(floor(n/1000));
+          pineapple.write(n/1000);
           digitalWrite(digit_4, true);
         }
       }
