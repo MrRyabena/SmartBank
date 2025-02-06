@@ -3,8 +3,8 @@ int b=D5;
 int c=D6; 
 int d=D7; 
 int e=D8; 
-int f=RX; 
-int g=TX; 
+int f= 3; 
+int g= 1; 
 
 
 int digit_1 = D0; //1- единицы,..., 4-тысячи
