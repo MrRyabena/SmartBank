@@ -2,20 +2,21 @@
 
 int a=7; 
 int b=6; 
-int c=5; 
+int c=10; 
 int d=11; 
-int e=10; 
+int e=12; 
 int f=8; 
 int g=9; 
 
 
-int digit_1 = 0; //1- единицы,..., 4-тысячи
-int digit_2 = 1;
-int digit_3 = 2;
-int digit_4 = 3;
+int digit_1 = 2; //1- единицы,..., 4-тысячи
+int digit_2 = 3;
+int digit_3 = 4;
+int digit_4 = 5;
 
 void setup() 
 { 
+    //Serial.begin(9600);
     pinMode(a,OUTPUT);
     pinMode(b,OUTPUT);
     pinMode(c,OUTPUT);
@@ -23,11 +24,22 @@ void setup()
     pinMode(e,OUTPUT);
     pinMode(f,OUTPUT);
     pinMode(g,OUTPUT);
+    pinMode(digit_1,OUTPUT);
+    pinMode(digit_2,OUTPUT);
+    pinMode(digit_3,OUTPUT);
+    pinMode(digit_4,OUTPUT);
+    digitalWrite(digit_1, true);
+    digitalWrite(digit_2, true);
+    digitalWrite(digit_3, true);
+    digitalWrite(digit_4, true);
 } 
 void loop (){
   for (int i = 0;i<10000;i++){
-    segment_out(i);
-    delay(50);
+    //Serial.println(i);
+    for (int b = 0;b<100;b++){
+      segment_out(i);
+      delay(1);
+    }
   }
 }
 
@@ -36,25 +48,25 @@ void loop (){
 void segment_out(int n) {
     digitalWrite(digit_1, false);
     num_display(n%10);
-    delay(1);
+    //delay(1000);
     clearDisplay();
     digitalWrite(digit_1, true);
     if (n>9){
       digitalWrite(digit_2, false);
       num_display(n%100/10);
-      delay(1);
+      //delay(10);
       clearDisplay();
       digitalWrite(digit_2, true);
       if (n>99){
         digitalWrite(digit_3, false);
         num_display(n%1000/100);
-        delay(1);
+        //delay(10);
         clearDisplay();
         digitalWrite(digit_3, true);
         if (n>999){
           digitalWrite(digit_4, false);
           num_display(n/1000);
-          delay(1);
+          //delay(10);
           clearDisplay();
           digitalWrite(digit_4, true);
         }
@@ -89,7 +101,7 @@ void
     digitalWrite(b,HIGH);
 
     digitalWrite(g,HIGH);
-  digitalWrite(e,HIGH);
+    digitalWrite(e,HIGH);
     digitalWrite(d,HIGH);
 }
   
