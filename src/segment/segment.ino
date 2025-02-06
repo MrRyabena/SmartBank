@@ -1,16 +1,16 @@
-int a=7; 
-int b=6; 
-int c=10; 
-int d=11; 
-int e=12; 
-int f=8; 
-int g=9; 
+int a=D4; 
+int b=D5; 
+int c=D6; 
+int d=D7; 
+int e=D8; 
+int f=RX; 
+int g=TX; 
 
 
-int digit_1 = 2; //1- единицы,..., 4-тысячи
-int digit_2 = 3;
-int digit_3 = 4;
-int digit_4 = 5;
+int digit_1 = D0; //1- единицы,..., 4-тысячи
+int digit_2 = D1;
+int digit_3 = D2;
+int digit_4 = D3;
 
 void setup() 
 { 
