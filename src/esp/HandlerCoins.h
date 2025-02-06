@@ -1,13 +1,12 @@
 #pragma once
 
-#include <shs_SensorAnalog.h>
 #include <shs_ProgramTime.h>
 #include <shs_Process.h>
 
-#include <shs_SortedBuf.h>
 #include <stdint.h>
 #include <algorithm>
 #include <shs_debug.h>
+#include <array.h>
 
 namespace shs
 {
@@ -16,8 +15,8 @@ namespace shs
 
 class shs::HandleCoins : public shs::Process
 {
-    public:
-    HandleCoins() : m_ir(A0) {}
+public:
+    HandleCoins() : m_ir(A0), m_coins({ Coin(1), Coin(2), Coin(5), Coin(10) }) {}
 
     static constexpr auto NOTIFICATION_DELAY = 60; // in seconds
 
@@ -37,12 +36,13 @@ class shs::HandleCoins : public shs::Process
     void tick() override;
     void stop() override {}
 
-    private:
+private:
     struct Coin
     {
-        Coin(const uint16_t set_value, const uint16_t set_ir_value, const uint16_t set_counter)
+        Coin(const uint16_t set_value, const uint16_t set_ir_value = 0, const uint16_t set_counter = 0)
             : value(set_value), counter(set_counter), ir_value(set_ir_value)
-        {}
+        {
+        }
 
         uint16_t value{};
         uint16_t ir_value{};
@@ -51,14 +51,14 @@ class shs::HandleCoins : public shs::Process
 
     struct CoinCompare { bool operator()(const Coin& lhs, const Coin& rhs) const { return lhs.value < rhs.value; } };
 
-    //shs::SortedBuf<Coin, CoinCompare> m_coins;
+    std::array<Coin, 4> m_coins;
 
     shs::ProgramTime m_active_time_point;
     uint16_t m_active_sum{};
     uint8_t m_register_coin_value{};
     bool m_coin_flag{};
 
-    shs::SensorAnalog m_ir;
+    //shs::SensorAnalog m_ir;
     uint16_t m_ir_empty{};
     uint16_t m_ir_last{};
 };

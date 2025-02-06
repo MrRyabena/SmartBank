@@ -1,16 +1,16 @@
-
+#define DEBUG
 #include "settings.h"
-#include <shs_debug.h>
-#include "HandlerCoins.h"
+//#include <shs_debug.h>
+//#include "HandlerCoins.h"
 
-shs::HandleCoins bank;
+//shs::HandleCoins bank;
 uint16_t last{};
 uint16_t val{};
 void setup() {
   dinit();
   doutln();
   dsep();
-  bank.start();
+  //bank.start();
   last = analogRead(0);
 }
 
@@ -18,7 +18,7 @@ void setup() {
 
 void loop() {
   val = analogRead(0);
-  if (abs(val - last) > 5) doutln(val);
+  if (abs(val - last) > 30) doutln(val);
   //doutln(val);
   //bank.waiteCoin();
   //bank.tick();
