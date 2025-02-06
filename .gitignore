@@ -51,6 +51,7 @@ src/libraries_paths.sh
 delayed_dev/
 test_dev/
 test/
+secrets.h
 
 
 # qtcreator generated files

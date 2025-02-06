@@ -16,7 +16,7 @@ namespace shs
 class shs::HandleCoins : public shs::Process
 {
 public:
-    HandleCoins() : m_coins({ Coin(1), Coin(2), Coin(5), Coin(10) }) {}
+    HandleCoins() : m_coins({ Coin(1, 981), Coin(2, 1019), Coin(5, 1024), Coin(10, 1000) }) {}
 
     static constexpr auto NOTIFICATION_DELAY = 60; // in seconds
 
@@ -24,12 +24,13 @@ public:
 
     void registerCoin(const uint8_t value) { m_register_coin_value = value; }
 
-    void waiteCoin() { while (!m_coin_flag) { tick(); yield(); } }
+    void waiteCoin() {  do { tick(); yield(); } while (!m_coin_flag); }
     uint16_t getLastRAW() const { return m_ir_last; }
 
     [[nodiscard]] uint16_t getSumCoin(const uint8_t value) const;
 
-    [[nodiscard]] uint16_t getActiveSum();
+    [[nodiscard]] uint16_t getActiveSum() { return m_active_sum; }
+    [[nodiscard]] uint16_t takeActiveSum();
     [[nodiscard]] uint32_t getActiveTime() { return m_active_time_point.seconds(); }
 
     void start() override;
