@@ -57,6 +57,7 @@ void segment_out(int n) {
           num_display(n/1000);
           //delay(10);
           clearDisplay();
+          digitalWrite(digit_4, true);
         }
       }
     }
@@ -202,7 +203,7 @@ void clearDisplay(void)
 void loop (){
   for (int i = 0;i<10000;i++){
     //Serial.println(i);
-    for (int b = 0;b<100;b++){
+    for (int b = 0;b<10;b++){
       segment_out(i);
       delay(1);
     }
