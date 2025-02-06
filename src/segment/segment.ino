@@ -1,5 +1,3 @@
-
-
 int a=7; 
 int b=6; 
 int c=10; 
@@ -33,15 +31,6 @@ void setup()
     digitalWrite(digit_3, true);
     digitalWrite(digit_4, true);
 } 
-void loop (){
-  for (int i = 0;i<10000;i++){
-    //Serial.println(i);
-    for (int b = 0;b<100;b++){
-      segment_out(i);
-      delay(1);
-    }
-  }
-}
 
 
 
@@ -68,7 +57,6 @@ void segment_out(int n) {
           num_display(n/1000);
           //delay(10);
           clearDisplay();
-          digitalWrite(digit_4, true);
         }
       }
     }
@@ -210,3 +198,13 @@ void clearDisplay(void)
     digitalWrite(e,LOW);  
   digitalWrite(f,LOW);  
 } 
+
+void loop (){
+  for (int i = 0;i<10000;i++){
+    //Serial.println(i);
+    for (int b = 0;b<100;b++){
+      segment_out(i);
+      delay(1);
+    }
+  }
+}

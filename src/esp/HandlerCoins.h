@@ -6,7 +6,7 @@
 #include <stdint.h>
 #include <algorithm>
 #include <shs_debug.h>
-#include <array.h>
+#include <array>
 
 namespace shs
 {
@@ -16,7 +16,7 @@ namespace shs
 class shs::HandleCoins : public shs::Process
 {
 public:
-    HandleCoins() : m_ir(A0), m_coins({ Coin(1), Coin(2), Coin(5), Coin(10) }) {}
+    HandleCoins() : m_coins({ Coin(1), Coin(2), Coin(5), Coin(10) }) {}
 
     static constexpr auto NOTIFICATION_DELAY = 60; // in seconds
 
@@ -57,6 +57,7 @@ private:
     uint16_t m_active_sum{};
     uint8_t m_register_coin_value{};
     bool m_coin_flag{};
+    bool m_flag{};
 
     //shs::SensorAnalog m_ir;
     uint16_t m_ir_empty{};
