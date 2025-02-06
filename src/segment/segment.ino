@@ -1,21 +1,29 @@
-#include "Pineapple.h"
 
-int serial = 6;  // shifte register, serial pin
-int registerClock = 7;  // shift register, register clock
-int serialClock = 8;  // shift register, clock
 
-int numberofRegisters = 1;    // how many registers?
+int a=7; 
+int b=6; 
+int c=5; 
+int d=11; 
+int e=10; 
+int f=8; 
+int g=9; 
 
-Pineapple pineapple;     // initialize the library
 
 int digit_1 = 0; //1- единицы,..., 4-тысячи
 int digit_2 = 1;
 int digit_3 = 2;
 int digit_4 = 3;
 
-void setup() {
-  segment_setup ();
-}
+void setup() 
+{ 
+    pinMode(a,OUTPUT);
+    pinMode(b,OUTPUT);
+    pinMode(c,OUTPUT);
+    pinMode(d,OUTPUT);
+    pinMode(e,OUTPUT);
+    pinMode(f,OUTPUT);
+    pinMode(g,OUTPUT);
+} 
 void loop (){
   for (int i = 0;i<10000;i++){
     segment_out(i);
@@ -27,36 +35,166 @@ void loop (){
 
 void segment_out(int n) {
     digitalWrite(digit_1, false);
-    pineapple.write(n%10);
+    num_display(n%10);
     delay(1);
+    clearDisplay();
     digitalWrite(digit_1, true);
     if (n>9){
       digitalWrite(digit_2, false);
-      pineapple.write(floor(n%100/10));
+      num_display(n%100/10);
       delay(1);
+      clearDisplay();
       digitalWrite(digit_2, true);
       if (n>99){
         digitalWrite(digit_3, false);
-        pineapple.write(floor(n%1000/100));
+        num_display(n%1000/100);
         delay(1);
+        clearDisplay();
         digitalWrite(digit_3, true);
         if (n>999){
           digitalWrite(digit_4, false);
-          pineapple.write(floor(n/1000));
+          num_display(n/1000);
+          delay(1);
+          clearDisplay();
           digitalWrite(digit_4, true);
         }
       }
     }
 }
-void segment_setup (){
-  pinMode(digit_1, OUTPUT);
-  pinMode(digit_2, OUTPUT);
-  pinMode(digit_3, OUTPUT);
-  pinMode(digit_4, OUTPUT);
-  digitalWrite(digit_1, true);
-  digitalWrite(digit_2, true);
-  digitalWrite(digit_3, true);
-  digitalWrite(digit_3, true);
-  pineapple.segmentPins(0, 1, 2, 3, 4, 5, 6, 7, LOW);  // set high for common anode, and low for common cathode
-  pineapple.registerPins(serial, registerClock, serialClock, numberofRegisters);
+void num_display (int n){
+  if (n == 0) display0();
+  else if (n == 1) display1();
+  else if (n == 2) display2();
+  else if (n == 3) display3();
+  else if (n == 4) display4();
+  else if (n == 5) display5();
+  else if (n == 6) display6();
+  else if (n == 7) display7();
+  else if (n == 8) display8();
+  else if (n == 9) display9();
+  
 }
+//display number 1
+void display1(void) 
+{
+  
+    digitalWrite(b,HIGH);
+    digitalWrite(c,HIGH);
+} 
+//display number2
+void
+  display2(void) 
+{
+    digitalWrite(a,HIGH);
+    digitalWrite(b,HIGH);
+
+    digitalWrite(g,HIGH);
+  digitalWrite(e,HIGH);
+    digitalWrite(d,HIGH);
+}
+  
+// display number3
+void display3(void) 
+{ 
+    digitalWrite(a,HIGH);
+
+    digitalWrite(b,HIGH);
+    
+  digitalWrite(c,HIGH);
+    digitalWrite(d,HIGH);
+
+    digitalWrite(g,HIGH);
+} 
+// display number4
+void display4(void) 
+{
+  
+    digitalWrite(f,HIGH);
+    digitalWrite(b,HIGH);
+    digitalWrite(g,HIGH);
+
+  digitalWrite(c,HIGH);
+  
+} 
+// display number5
+void display5(void)
+  
+{ 
+    digitalWrite(a,HIGH);
+    digitalWrite(f,HIGH);
+    digitalWrite(g,HIGH);
+
+  digitalWrite(c,HIGH);
+    digitalWrite(d,HIGH);
+} 
+// display number6
+void
+  display6(void) 
+{ 
+    digitalWrite(a,HIGH);
+    digitalWrite(f,HIGH);
+
+    digitalWrite(g,HIGH);
+  digitalWrite(c,HIGH);
+    digitalWrite(d,HIGH);
+  
+    digitalWrite(e,HIGH);  
+} 
+// display number7
+void display7(void)
+  
+{   
+   digitalWrite(a,HIGH);
+    digitalWrite(b,HIGH);
+    digitalWrite(c,HIGH);
+}
+  
+// display number8
+void display8(void) 
+{ 
+    digitalWrite(a,HIGH);
+
+    digitalWrite(b,HIGH);
+    digitalWrite(g,HIGH);
+  digitalWrite(c,HIGH);
+
+    digitalWrite(d,HIGH);  
+    digitalWrite(e,HIGH);  
+  digitalWrite(f,HIGH);
+  
+} 
+void display9(void)
+  
+{ 
+    digitalWrite(a,HIGH);
+    digitalWrite(b,HIGH);
+    digitalWrite(g,HIGH);
+
+  digitalWrite(c,HIGH);
+    digitalWrite(d,HIGH);  
+  digitalWrite(f,HIGH);
+  
+} 
+void display0(void) 
+{ 
+    digitalWrite(a,HIGH);
+    digitalWrite(b,HIGH);
+
+  digitalWrite(c,HIGH);
+    digitalWrite(d,HIGH);  
+    digitalWrite(e,HIGH);
+  
+  digitalWrite(f,HIGH);  
+} 
+void clearDisplay(void) 
+{ 
+    digitalWrite(a,LOW);
+    digitalWrite(b,LOW);
+
+    digitalWrite(g,LOW);
+  digitalWrite(c,LOW);
+    digitalWrite(d,LOW);  
+
+    digitalWrite(e,LOW);  
+  digitalWrite(f,LOW);  
+} 
