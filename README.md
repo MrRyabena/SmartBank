@@ -15,4 +15,4 @@
 > Проект использует библиотеки AlexGyver'a и основной проект — фреймворк [SmartHomeSystem](https://github.com/MrRyabena/SmartHomeSystem). Для сборки кода необходима предрелизная версия, находящаяся в ветке [v2.Working](https://github.com/MrRyabena/SmartHomeSystem/tree/v2.Working).
 
 # Versions 
-- v1.0.0 -- [current] первый релиз
+- v1.0.0 — [current] release
