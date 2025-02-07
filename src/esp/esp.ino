@@ -14,15 +14,16 @@ shs::Segment segment;
 void onDelay();
 
 void setup() {
-  uint8_t f = shs::ControlWiFi::connectWiFiWait();
+  uint8_t f = shs::ControlWiFi::connectWiFiWait(5000);
 
   botSetup();
 
   bank.start();
   segment.attachOnDelay(onDelay);
   segment.start();
-  segment.tick();
-  daley(2000);
+  segment.set(10 + f);
+  
+  while (millis() < 8000) segment.tick();
 }
 
 

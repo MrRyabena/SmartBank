@@ -29,7 +29,9 @@ uint16_t shs::HandleCoins::takeActiveSum()
 
 void shs::HandleCoins::start()
 {
-    LittleFS.begin();
+    //LittleFS.begin();
+
+    //m_storage.read();
     
     m_ir_empty = analogRead(0);
     m_ir_last = m_ir_empty;
@@ -60,7 +62,7 @@ void shs::HandleCoins::tick()
         {
             if (m_ir_last == 1024 && i != 2) continue;            // temporarily due to a flaw in the model
             auto delta = abs(m_ir_last - m_coins[i].ir_value);
-            if (delta < 4)
+            if (delta < 9)
             {
                 m_coins[i].counter++;
                 m_active_sum += m_coins[i].value;
@@ -74,4 +76,7 @@ void shs::HandleCoins::tick()
         m_ir_last = ir_value;
         m_flag = false;
     }
+
+    //if (m_active_time_point.seconds() > NOTIFICATION_DELAY && m_active_sum) m_storage.write();
+    //m_storage.updateNow();
 }

@@ -4,6 +4,7 @@
 #include <algorithm>
 #include <array>
 
+#include <Arduino.h>
 #include <FileData.h>
 #include <LittleFS.h>
 
@@ -20,22 +21,26 @@ namespace shs
 class shs::HandleCoins : public shs::Process
 {
 public:
-    HandleCoins() : m_coins({ Coin(1, 981), Coin(2, 1019), Coin(5, 1024), Coin(10, 1000) }) {}
+    HandleCoins()
+        : m_coins({ Coin(1, 981), Coin(2, 1019), Coin(5, 1024), Coin(10, 1000) })
+        //m_storage(&LittleFS, "/data.dat", 'B', &m_coins, sizeof(Coin) * 4)
+    {}
 
     static constexpr auto NOTIFICATION_DELAY = 60; // in seconds
-
-    [[nodiscard]] uint16_t getSum() const;
 
     void registerCoin(const uint8_t value) { m_register_coin_value = value; }
 
     void waiteCoin() { do { tick(); yield(); } while (!m_coin_flag); }
     uint16_t getLastRAW() const { return m_ir_last; }
 
+    [[nodiscard]] uint16_t getSum() const;
     [[nodiscard]] uint16_t getSumCoin(const uint8_t value) const;
 
     [[nodiscard]] uint16_t getActiveSum() { return m_active_sum; }
     [[nodiscard]] uint16_t takeActiveSum();
     [[nodiscard]] uint32_t getActiveTime() { return m_active_time_point.seconds(); }
+
+    void reset() { for (auto i = 0; i < m_coins.size(); i++) m_coins[i].counter = 0; } // m_storage.write(); }
 
     void start() override;
     void tick() override;
@@ -58,7 +63,7 @@ private:
 
     std::array<Coin, 4> m_coins;
 
-    FileData m_storage(&LittleFS, "/data.dat", 'B', &m_coins, sizeof(Coin) * 4);
+    //FileData m_storage;
 
     shs::ProgramTime m_active_time_point;
     uint16_t m_active_sum{};
@@ -66,7 +71,6 @@ private:
     bool m_coin_flag{};
     bool m_flag{};
 
-    //shs::SensorAnalog m_ir;
     uint16_t m_ir_empty{};
     uint16_t m_ir_last{};
 };
