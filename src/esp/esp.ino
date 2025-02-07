@@ -8,49 +8,60 @@
 #include "HandlerCoins.h"
 #include "Segment.h"
 
-shs::HandleCoins bank;
+shs::HandlerCoins bank;
 shs::Segment segment;
 
 void onDelay();
 
-void setup() {
-  uint8_t f = shs::ControlWiFi::connectWiFiWait(5000);
 
-  botSetup();
+void setup()
+{
+    uint8_t f = shs::ControlWiFi::connectWiFiWait(5000);
 
-  bank.start();
-  segment.attachOnDelay(onDelay);
-  segment.start();
-  segment.set(10 + f);
-  
-  while (millis() < 8000) segment.tick();
+    botSetup();
+
+    bank.start();
+    segment.attachOnDelay(onDelay);
+    segment.start();
+    segment.set(10 + f);
+
+    while (millis() < 8000) segment.tick();
 }
 
 
-void onDelay() {
-  bank.tick();
-  yield();
+void onDelay()
+{
+    bank.tick();
+    yield();
 }
 
 
-void loop() {
+void loop()
+{
 
-  bank.tick();
-  segment.tick();
- 
-  if (bank.getActiveTime() >= 60) {
-    auto val = bank.takeActiveSum();
+    bank.tick();
+    segment.tick();
 
-    if (val) {
-      botSendSum(val);
-      segment.clear();
-      segment.tick();
+    if (bank.getActiveTime() >= 60)
+    {
+        auto val = bank.takeActiveSum();
+
+        if (val)
+        {
+            botSendSum(val);
+            segment.clear();
+            segment.tick();
+        }
+        if (bank.getSum() == 0)
+        {
+            segment.clear();
+            segment.tick();
+        }
+        botTick();
+
     }
-    if (bank.getSum() == 0) {segment.clear();
-      segment.tick();}
-    botTick();
-
-  } else {
-    segment.set(bank.getSum());
-  }
+    else
+    {
+        segment.set(bank.getSum());
+    }
 }

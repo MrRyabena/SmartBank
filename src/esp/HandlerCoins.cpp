@@ -1,20 +1,20 @@
 #include "HandlerCoins.h"
 
-uint16_t shs::HandleCoins::getSum() const
+uint16_t shs::HandlerCoins::getSum() const
 {
     uint16_t res_sum{};
     for (auto& x : m_coins) res_sum += x.value * x.counter;
     return res_sum;
 }
 
-uint16_t shs::HandleCoins::getSumCoin(const uint8_t value) const
+uint16_t shs::HandlerCoins::getSumCoin(const uint8_t value) const
 {
     auto it = std::find_if(m_coins.begin(), m_coins.end(), [value](const Coin& coin) { return coin.value == value; });
     if (it == m_coins.end()) return 0xffff;
     return it->value * it->counter;
 }
 
-uint16_t shs::HandleCoins::takeActiveSum()
+uint16_t shs::HandlerCoins::takeActiveSum()
 {
     if (m_active_time_point.seconds() > NOTIFICATION_DELAY && m_active_sum)
     {
@@ -27,7 +27,7 @@ uint16_t shs::HandleCoins::takeActiveSum()
 }
 
 
-void shs::HandleCoins::start()
+void shs::HandlerCoins::start()
 {
     //LittleFS.begin();
 
@@ -37,7 +37,7 @@ void shs::HandleCoins::start()
     m_ir_last = m_ir_empty;
 }
 
-void shs::HandleCoins::tick()
+void shs::HandlerCoins::tick()
 {
     uint16_t ir_value = analogRead(0);
     m_coin_flag = false;

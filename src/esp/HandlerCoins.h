@@ -15,13 +15,13 @@
 
 namespace shs
 {
-    class HandleCoins;
+    class HandlerCoins;
 };
 
-class shs::HandleCoins : public shs::Process
+class shs::HandlerCoins : public shs::Process
 {
 public:
-    HandleCoins()
+    HandlerCoins()
         : m_coins({ Coin(1, 981), Coin(2, 1019), Coin(5, 1024), Coin(10, 1000) })
         //m_storage(&LittleFS, "/data.dat", 'B', &m_coins, sizeof(Coin) * 4)
     {}
