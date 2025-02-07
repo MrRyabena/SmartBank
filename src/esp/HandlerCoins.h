@@ -1,12 +1,16 @@
 #pragma once
 
+#include <stdint.h>
+#include <algorithm>
+#include <array>
+
+#include <FileData.h>
+#include <LittleFS.h>
+
+
 #include <shs_ProgramTime.h>
 #include <shs_Process.h>
 
-#include <stdint.h>
-#include <algorithm>
-#include <shs_debug.h>
-#include <array>
 
 namespace shs
 {
@@ -24,7 +28,7 @@ public:
 
     void registerCoin(const uint8_t value) { m_register_coin_value = value; }
 
-    void waiteCoin() {  do { tick(); yield(); } while (!m_coin_flag); }
+    void waiteCoin() { do { tick(); yield(); } while (!m_coin_flag); }
     uint16_t getLastRAW() const { return m_ir_last; }
 
     [[nodiscard]] uint16_t getSumCoin(const uint8_t value) const;
@@ -37,13 +41,13 @@ public:
     void tick() override;
     void stop() override {}
 
+
 private:
     struct Coin
     {
         Coin(const uint16_t set_value, const uint16_t set_ir_value = 0, const uint16_t set_counter = 0)
             : value(set_value), counter(set_counter), ir_value(set_ir_value)
-        {
-        }
+        {}
 
         uint16_t value{};
         uint16_t ir_value{};
@@ -53,6 +57,8 @@ private:
     struct CoinCompare { bool operator()(const Coin& lhs, const Coin& rhs) const { return lhs.value < rhs.value; } };
 
     std::array<Coin, 4> m_coins;
+
+    FileData m_storage(&LittleFS, "/data.dat", 'B', &m_coins, sizeof(Coin) * 4);
 
     shs::ProgramTime m_active_time_point;
     uint16_t m_active_sum{};

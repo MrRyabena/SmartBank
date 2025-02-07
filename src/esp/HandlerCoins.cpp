@@ -29,6 +29,8 @@ uint16_t shs::HandleCoins::takeActiveSum()
 
 void shs::HandleCoins::start()
 {
+    LittleFS.begin();
+    
     m_ir_empty = analogRead(0);
     m_ir_last = m_ir_empty;
 }
