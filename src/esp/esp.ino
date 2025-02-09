@@ -1,6 +1,5 @@
 #include "settings.h"
 
-#include <array>
 
 #include <shs_ControlWiFi.h>
 #include <FastBot.h>
@@ -9,7 +8,10 @@
 #include "Segment.h"
 
 shs::HandlerCoins bank;
-shs::Segment segment;
+shs::Segment segment(
+    p_A, p_B, p_C, p_D, p_E, p_F, p_G,
+    p_DIGIT_1, p_DIGIT_2, p_DIGIT_3, p_DIGIT_4
+);
 
 void onDelay();
 
@@ -38,11 +40,10 @@ void onDelay()
 
 void loop()
 {
-
     bank.tick();
     segment.tick();
 
-    if (bank.getActiveTime() >= 60)
+    if (bank.getActiveTime() >= shs::HandlerCoins::NOTIFICATION_DELAY)
     {
         auto val = bank.takeActiveSum();
 
